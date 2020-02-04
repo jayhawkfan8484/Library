@@ -1,9 +1,15 @@
 let myLibrary = [];
-myLibrary.push(new Book("art", "lauren", "433", "false"));
-myLibrary.push(new Book("two", "cassie", "567", "true"));
-myLibrary.push(new Book("three", "jace", "456", "true"));
-console.table(myLibrary);
+myLibrary.push(new Book("art", "lauren", "433", "yes"));
+myLibrary.push(new Book("two", "cassie", "567", "no"));
+trialBook = new Book("three", "jace", "456", "no");
+myLibrary.push(trialBook);
 render();
+
+
+function findBookfromDiv(myDiv) {
+  myBook = myLibrary.find(book => (book.title === div.dataset.title));
+}
+
 
 //Event Listeners
 newBtn = document.querySelector('.new-btn')
@@ -12,29 +18,46 @@ newBtn.onclick = showForm;
 submitBtn = document.querySelector('#submit');
 submitBtn.onclick = addBookToLibrary;
 
+function Book(title, author, pages, read) {
+  this.title = title
+  this.author = author
+  this.pages = pages
+  this.read = read
+}
+
+Book.prototype.changeReadStatus = function () {
+  this.read = (this.read === 'yes') ? 'no' : 'yes';
+}
+
+function updateBook(e) {
+
+  if (e.target.classList.contains('remove-btn')) {
+    removeBook();
+  }
+  if (e.target.classList.contains('read-btn')) {
+    // console.log(e.target.parentNode.dataset.title);
+    div = (e.target.parentNode);
+    changeTitle = e.target.parentNode.dataset.title;
+    myBook = myLibrary.find(book => (book.title === changeTitle));
+    myBook.changeReadStatus();
+    readPara = (div.querySelector('p:last-of-type'));
+    readPara.textContent = (`pages: ${myBook.read}`);
+  }
 
 
-function removeBook(e) {
-  console.log(myLibrary);
-  if (e.target.type === 'button') {
+  function removeBook() {
     removeTitle = e.target.parentNode.dataset.title;
     removeDiv = e.target.parentNode;
     bookContainer = document.querySelector('.book-container');
 
-    let position;
     //remove from myLibrary
-    myLibrary.forEach(function(book, index) {
-      if(book.title === removeTitle){
-        position = index;
-      }
-    })
-    myLibrary.splice(position, 1);
+    myBook = myLibrary.find(book => (book.title === removeDiv.dataset.title));
+    let spot = myLibrary.indexOf(myBook);
+    myLibrary.splice(spot, 1);
 
     //remove from book-container
     bookContainer.removeChild(removeDiv);
-    console.log(removeDiv);
   }
-
 }
 
 function addBookToLibrary() {
@@ -47,30 +70,21 @@ function addBookToLibrary() {
   newBook = new Book(titleBox.value, authorBox.value,
     pagesBox.value, readBox.value)
   myLibrary.push(newBook);
+  console.table(myLibrary);
   hideForm();
   render();
-
 }
 
 function showForm() {
-  // console.log(e);
   formContainer = document.querySelector('.form-container');
   formContainer.style.display = "block";
 
 }
 
 function hideForm() {
-  // console.log(e);
   formContainer = document.querySelector('.form-container');
   formContainer.style.display = "none";
 
-}
-
-function Book(title, author, pages, read) {
-  this.title = title
-  this.author = author
-  this.pages = pages
-  this.read = read
 }
 
 function getDisplayedBooks() {
@@ -88,7 +102,7 @@ function render() {
 
   bookDivs = document.querySelectorAll('.book');
   bookDivs.forEach(div => {
-    div.addEventListener('click', removeBook)
+    div.addEventListener('click', updateBook)
   })
 }
 
@@ -117,7 +131,14 @@ function displayBook(book) {
     div.appendChild(para);
   }
 
-  //add button to bottom
+  // add readStatusBtn to bottom
+  changeReadStatusBtn = document.createElement('input');
+  changeReadStatusBtn.type = 'button';
+  changeReadStatusBtn.value = 'Change Read Status';
+  changeReadStatusBtn.classList.add('read-btn');
+  div.appendChild(changeReadStatusBtn);
+
+  //add removeButton to bottom
   removeButton = document.createElement('input');
   removeButton.type = 'button';
   removeButton.value = 'Remove';
