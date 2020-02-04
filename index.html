@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Library</title>
+</head>
+
+<body>
+  <div class="main-container">
+    <h1 class="heading">Library</h1>
+    <div class="button-container">
+      <input type="button" value="New Book" class="new-btn btn">
+    </div>
+    <div class="form-container">
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title" value="Moon">
+      <label for="author">Author:</label>
+      <input type="text" name="author" id="author" value="Charles">
+      <label for="pages">Pages:</label>
+      <input type="number" name="pages" id="pages" value="316">
+      <label for="read">Read:</label>
+      <input type="text" name="read" id="read" value="yes">
+      <input type="button" value="Submit" id="submit">
+    </div>
+    <div class="book-container">
+      <div class="book" data-title="art">
+        <p class="content">title: art</p>
+        <p class="content">author: lauren</p>
+        <p class="content">pages: 433</p>
+        <p class="content">read: false</p>
+        <input type="button" value="Remove" class="remove-btn">
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
